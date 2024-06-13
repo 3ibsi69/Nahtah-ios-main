@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "1027183268875",
+    "firebase_url": "https://nahtah-f1dc4-default-rtdb.firebaseio.com",
+    "project_id": "nahtah-f1dc4",
+    "storage_bucket": "nahtah-f1dc4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027183268875:android:af9098d65620da368ce30e",
+        "android_client_info": {
+          "package_name": "nahtah.project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027183268875-7jshgt5eo500c458s0d6c1t5sv8a4aop.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nahtah.project",
+            "certificate_hash": "dd42d3539f7c2322b91f0d8dcdd67ff05e459744"
+          }
+        },
+        {
+          "client_id": "1027183268875-fqsc28cmqsj5utg0sta4s616pohjn4ve.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nahtah.project",
+            "certificate_hash": "4e48797a3936acc83f1c66d602423b53cc0d1dc1"
+          }
+        },
+        {
+          "client_id": "1027183268875-s50ulvu0r24i0u2irloccqqbo3ic0fc6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nahtah.project",
+            "certificate_hash": "5263af1cb1d2d9b6f817ac80aae82153a805749c"
+          }
+        },
+        {
+          "client_id": "1027183268875-nc0ogp5rouh2kufebjojdklinu62sht0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo26OnFgjc0CuXjzwTtbZ-caEGl4iUd-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027183268875-nc0ogp5rouh2kufebjojdklinu62sht0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1027183268875-to5puh2r0rftk6kfn3ksrsqqvmlm2gut.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "nahtah.project"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

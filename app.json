@@ -1,0 +1,63 @@
+{
+  "expo": {
+    "name": "نحته مواعيد",
+    "slug": "AwesomeProject",
+    "version": "1.0.5",
+    "owner": "abbassiahmed",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "nahtah",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "nahtah.project"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "nahtah.project",
+      "versionCode": 6,
+      "googleServicesFile": "./google-services.json"
+    },
+    "web": {
+      "favicon": "./assets/ic_launcher192.png",
+      "bundler": "metro",
+      "output": "static"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7b823336-2f35-4c4a-8e3b-e44e3976e049"
+      }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "useCleartextTraffic": true
+          },
+          "ios": {
+            "infoPlist": {
+              "NSAppTransportSecurity": {
+                "NSAllowsArbitraryLoads": true
+              }
+            },
+            "useFrameworks": "static"
+          }
+        }
+      ],
+      "expo-router",
+      "expo-localization"
+    ]
+  }
+}
