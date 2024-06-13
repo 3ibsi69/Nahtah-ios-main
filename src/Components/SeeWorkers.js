@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
 
 export default function SeeWorkers() {
   const route = useRoute();
@@ -148,6 +149,7 @@ export default function SeeWorkers() {
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
       )}
+      <StatusBar style="auto"/>
     </ScrollView>
   );
 }

@@ -46,7 +46,6 @@ import {
   GoogleSignin,
   GoogleSigninButton,
 } from "@react-native-google-signin/google-signin";
-import auth from "@react-native-firebase/auth";
 const Tab = createBottomTabNavigator();
 const AuthStack = createStackNavigator();
 const AdminStack = createStackNavigator();
@@ -113,7 +112,7 @@ function MainStackScreen() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarStyle: {
-          height: 57,
+          height: 80,
         },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -144,17 +143,17 @@ function MainStackScreen() {
       <Tab.Screen
         name="حجز"
         component={Event}
-        options={{ headerShown: false }}
+        options={{ headerShown: false,tabBarLabelStyle:{fontSize:10} }}
       />
       <Tab.Screen
         name="الحجوزات"
         component={Events}
-        options={{ headerShown: false }}
+        options={{ headerShown: false,tabBarLabelStyle:{fontSize:10} }}
       ></Tab.Screen>
       <Tab.Screen
         name="النشرة الإخبارية"
         component={SeeNewsPaperClient}
-        options={{ headerShown: false }}
+        options={{ headerShown: false,tabBarLabelStyle:{fontSize:10} }}
       ></Tab.Screen>
 
       <Tab.Screen
@@ -162,6 +161,7 @@ function MainStackScreen() {
         options={{
           headerShown: false,
           tabBarBadge: uncheckedCount > 0 ? uncheckedCount : null,
+          tabBarLabelStyle:{fontSize:10}
         }}
       >
         {() => (
@@ -179,12 +179,12 @@ function MainStackScreen() {
       <Tab.Screen
         name="حساب تعريفي"
         component={Profile}
-        options={{ headerShown: false }}
+        options={{ headerShown: false ,tabBarLabelStyle:{fontSize:10}}}
       />
       <Tab.Screen
         name="Logout"
         component={HandleLogout}
-        options={{ headerShown: false }}
+        options={{ headerShown: false ,tabBarLabelStyle:{fontSize:10}}}
       />
 
       <Tab.Screen
@@ -264,7 +264,7 @@ function AdminStackScreen() {
       screenOptions={({ route }) => ({
         tabBarStyle: {
           height: 80,
-          width
+          width :"100%"
         },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -302,12 +302,13 @@ function AdminStackScreen() {
       <Tab.Screen
         name="SeeWorkers"
         component={SeeWorkers}
-        options={{ headerShown: false, tabBarLabel: "إدارة العمال" }}
+        options={{ headerShown: false, tabBarLabel: "إدارة العمال",tabBarLabelStyle:{fontSize:10} }}
       />
       <Tab.Screen
         name="ManageEvents"
         options={{
           tabBarLabel: "إدارة الحجوزات",
+          tabBarLabelStyle:{fontSize:10},      
           headerShown: false,
           tabBarBadge: eventSLength > 0 ? eventSLength : null,
         }}
@@ -318,7 +319,7 @@ function AdminStackScreen() {
       <Tab.Screen
         name="العروض"
         component={SeeNewsLetter}
-        options={{ headerShown: false }}
+        options={{ headerShown: false,tabBarLabelStyle:{fontSize:10} }}
       />
       <Tab.Screen
         name="time"
@@ -326,17 +327,18 @@ function AdminStackScreen() {
         options={{
           tabBarLabel: "وقت العمل",
           headerShown: false,
+          tabBarLabelStyle:{fontSize:10}
         }}
       />
       <Tab.Screen
         name="حجز"
         component={EventAdmin}
-        options={{ headerShown: false }}
+        options={{ headerShown: false,tabBarLabelStyle:{fontSize:10} }}
       />
       <Tab.Screen
         name="الحجوزات"
         component={ChooseTimeSeeEvents}
-        options={{ headerShown: false }}
+        options={{ headerShown: false ,tabBarLabelStyle:{fontSize:10}}}
       />
       <Tab.Screen
         name="تحديث رسالة الأخبار"
@@ -345,6 +347,7 @@ function AdminStackScreen() {
           tabBarButton: () => null,
           tabBarVisible: false,
           headerShown: false,
+          tabBarLabelStyle:{fontSize:10}
         }}
       />
       <Tab.Screen
@@ -353,17 +356,18 @@ function AdminStackScreen() {
         options={{
           tabBarLabel: "إدارة المستخدمين",
           headerShown: false,
+          tabBarLabelStyle:{fontSize:10}
         }}
       />
       <Tab.Screen
         name="حساب تعريفي"
         component={Profile}
-        options={{ headerShown: false }}
+        options={{ headerShown: false,tabBarLabelStyle:{fontSize:10} }}
       />
       <Tab.Screen
         name="Logout"
         component={HandleLogout}
-        options={{ headerShown: false, tabBarLabel: "الخروج" }}
+        options={{ headerShown: false, tabBarLabel: "الخروج" ,tabBarLabelStyle:{fontSize:10}}}
       />
 
       <Tab.Screen
@@ -403,13 +407,9 @@ const signOut = async () => {
     if (isSignedIn) {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
-      await auth().signOut();
     } else {
       // Only try to sign out from Firebase if there's a current user
-      const currentUser = auth().currentUser;
-      if (currentUser) {
-        await auth().signOut();
-      }
+      
     }
     await AsyncStorage.removeItem("token");
     await AsyncStorage.removeItem("user");

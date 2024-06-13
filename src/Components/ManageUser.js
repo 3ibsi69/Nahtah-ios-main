@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    paddingTop: 40,
+    paddingTop: 60,
   },
   scrollView: {
     flexGrow: 1,
@@ -376,12 +376,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignSelf: "center",
     justifyContent: "space-between",
-    width: windowWidth * 0.8,
+    width: windowWidth * 0.9,
   },
   filterButton: {
     flex: 1,
     paddingVertical: 10,
-    paddingHorizontal: 10,
     borderRadius: 20,
     marginHorizontal: 5,
     alignItems: "center",

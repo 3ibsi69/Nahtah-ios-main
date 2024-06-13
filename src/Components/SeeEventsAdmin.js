@@ -219,7 +219,7 @@ export default function SeeEvents() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
+    paddingTop: 80,
     backgroundColor: "white",
   },
   scrollViewContainer: {
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
   },
   arrowBack: {
     position: "absolute",
-    top: 20,
+    top: 45,
     right: 20,
   },
 

@@ -300,7 +300,7 @@ export default function EventDetails() {
 const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
-    paddingTop: 50,
+    paddingTop: 80,
     backgroundColor: "white",
   },
   card: {

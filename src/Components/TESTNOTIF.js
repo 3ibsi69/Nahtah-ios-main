@@ -18,6 +18,7 @@ export default function TESTNOTIF({ onTokenReceived }) {
   const navigation = useNavigation();
 
   useEffect(() => {
+    console.log(onTokenReceived)
     registerForPushNotificationsAsync()
       .then((token) => {
         setExpoPushToken(token);

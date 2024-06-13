@@ -175,11 +175,10 @@ export default function ChooseTimeSeeEvents() {
         <View
           style={[styles.datePickerButton, !selectedDate && { width: "90%" }]}
         >
-          {Platform.OS === "android" && (
-            <>
-              <Text style={styles.selectedDateText}>{selectedDate}</Text>
-            </>
+          {selectedDate && (
+            <Text>{selectedDate}</Text>
           )}
+          
           <TouchableOpacity
             onPress={toggleDatePicker}
             style={styles.datePickerBtn}
@@ -194,11 +193,10 @@ export default function ChooseTimeSeeEvents() {
             !selectedDateEnd && { width: "90%" },
           ]}
         >
-          {Platform.OS === "android" && (
-            <>
-              <Text style={styles.selectedDateText}>{selectedDateEnd}</Text>
-            </>
+          {selectedDate && (
+            <Text>{selectedDateEnd}</Text>
           )}
+          
           <TouchableOpacity
             onPress={toggleDatePickerEnd}
             style={styles.datePickerBtn}
@@ -322,9 +320,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 20,
+    gap:10
   },
   datePickerButton: {
-    flexDirection: "row",
+    flexDirection: "column-reverse",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -334,7 +333,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   datePickerBtn: {
-    width: "50%",
+    width: 150,
     height: 45,
     backgroundColor: "#003366",
     alignItems: "center",

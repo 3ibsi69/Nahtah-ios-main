@@ -16,6 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import TESTNOTIF from "./TESTNOTIF";
 import GoogleUp from "./GoogleUp";
+import GoogleIos from "./googleUpIos"
 // import FacebookUp from "./FacebookUp";
 import { FontAwesome } from "@expo/vector-icons";
 export default function Login({ navigation }) {
@@ -210,6 +211,7 @@ export default function Login({ navigation }) {
               <View style={styles.buttonContainers}>
                 <TouchableOpacity style={styles.buttons}>
                   {/* <GoogleUp /> */}
+                  <GoogleIos/>
                 </TouchableOpacity>
                 {/* <TouchableOpacity style={styles.buttons}>
                   <FacebookUp />

@@ -822,11 +822,9 @@ export default function Event() {
           </View>
 
           <View style={styles.datePickerButton}>
-            {Platform.OS === "android" && (
-              <>
-                <Text style={styles.selectedDateText}>{selectedDate}</Text>
-              </>
-            )}
+          {selectedDate && (
+            <Text>{selectedDate}</Text>
+          )}
             <TouchableOpacity
               onPress={toggleDatePicker}
               style={styles.datePickerBtn}
@@ -1274,6 +1272,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 8,
+    marginLeft:10
   },
   datePickerBtnText: {
     color: "#fff",

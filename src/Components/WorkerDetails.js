@@ -156,19 +156,20 @@ export default function WorkerDetails() {
         <View style={styles.card}>
           <Text style={styles.DaysOffTextTitle}>أضف يوم عطلة</Text>
           <View style={styles.datePickerButton}>
-            {Platform.OS === "android" && (
-              <>
-                <Text style={styles.selectedDateText}>{selectedDate}</Text>
-              </>
-            )}
+          {selectedDate && (
+            <Text>{selectedDate}</Text>
+          )}
+          
             <TouchableOpacity
               onPress={toggleDatePicker}
               style={styles.datePickerBtn}
             >
               <Text style={styles.datePickerBtnText}>اختر التاريخ</Text>
             </TouchableOpacity>
+          
           </View>
           {showDatePicker && datePickerComponent}
+          
           {daysOff.length > 0 ? (
             <View>
               {daysOff.map((day) => {
@@ -260,7 +261,7 @@ const styles = StyleSheet.create({
   },
   arrowBack: {
     position: "absolute",
-    top: 20,
+    top: 40,
     right: 20,
   },
   card: {
