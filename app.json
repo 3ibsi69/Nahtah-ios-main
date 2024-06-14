@@ -18,7 +18,9 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "nahtah.project"
+      "bundleIdentifier": "nahtah.project",
+      "buildNumber": "2"  
+
     },
     "android": {
       "adaptiveIcon": {
