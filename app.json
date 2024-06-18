@@ -2,7 +2,7 @@
   "expo": {
     "name": "نحته حجوزات",
     "slug": "AwesomeProject",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "owner": "abbassiahmed",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "nahtah.project",
-      "buildNumber": "2"  
+      "buildNumber": "3"  
 
     },
     "android": {
@@ -28,7 +28,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "nahtah.project",
-      "versionCode": 6,
+      "versionCode": 7,
       "googleServicesFile": "./google-services.json"
     },
     "web": {
