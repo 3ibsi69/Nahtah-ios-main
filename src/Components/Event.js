@@ -523,22 +523,26 @@ export default function Event() {
     try {
       const response = await axios.get("https://api.nahtah.com/usersConnected");
       const keys = Object.keys(response.data);
-      axios.get("https://api.nahtah.com/auth/user").then((res) => {
-        const usersWithMatchingIds = res.data.filter((user) =>
-          keys.includes(user._id)
-        );
-        setClientsIds(usersWithMatchingIds.map((user) => user._id));
-      });
-      axios.get("https://api.nahtah.com/auth/admin").then((res) => {
-        const adminsWithMatchingIds = res.data.filter((admin) =>
-          keys.includes(admin._id)
-        );
-        setAdminIds(adminsWithMatchingIds.map((admin) => admin._id));
-      });
+
+      const [clientsResponse, adminsResponse] = await Promise.all([
+        axios.get("https://api.nahtah.com/auth/user"),
+        axios.get("https://api.nahtah.com/auth/admin"),
+      ]);
+
+      const usersWithMatchingIds = clientsResponse.data.filter((user) =>
+        keys.includes(user._id)
+      );
+      setClientsIds(usersWithMatchingIds.map((user) => user._id));
+
+      const adminsWithMatchingIds = adminsResponse.data.filter((admin) =>
+        keys.includes(admin._id)
+      );
+      setAdminIds(adminsWithMatchingIds.map((admin) => admin._id));
     } catch (error) {
-      console.log("error", error);
+      console.error("Error fetching data:", error);
     }
   };
+
   useEffect(() => {
     fetchData();
     notAvalabletime();
@@ -822,9 +826,7 @@ export default function Event() {
           </View>
 
           <View style={styles.datePickerButton}>
-          {selectedDate && (
-            <Text>{selectedDate}</Text>
-          )}
+            {selectedDate && <Text>{selectedDate}</Text>}
             <TouchableOpacity
               onPress={toggleDatePicker}
               style={styles.datePickerBtn}
@@ -1272,7 +1274,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 8,
-    marginLeft:10
+    marginLeft: 10,
   },
   datePickerBtnText: {
     color: "#fff",
