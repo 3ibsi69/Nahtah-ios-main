@@ -643,10 +643,11 @@ export default function Event() {
                     ? adminIds.forEach((adminId) => {
                         axios.post("https://api.nahtah.com/send", {
                           userId: adminId,
-                          title: "تم إضافة حجز جديد!",
-                          body: `تم حجز موعد جديد للحلاق ${selectedBarber} في ${selectedValue} بتاريخ ${
+                          title: "طلب حجز موعد حلاقة",
+                          body: `لديك طلب حجز حلاقة عند ${selectedBarber} بتاريخ ${
                             AddDay.toISOString().split("T")[0]
-                          }`,
+                          } على الساعة ${selectedValue}`,
+
                           channelId: "ManageEvents",
                         });
                       })
@@ -664,10 +665,10 @@ export default function Event() {
 
                   await axios.post("https://api.nahtah.com/send", {
                     userId: user._id,
-                    title: "تم حجز موعد جديد!",
-                    body: `تم حجز موعد جديد لك في ${selectedValue} بتاريخ ${
+                    title: "طلب حجز موعد حلاقة",
+                    body: `لقد تم إرسال طلب الحجز للحلاقة الخاص بك بتاريخ ${
                       AddDay.toISOString().split("T")[0]
-                    }`,
+                    }، على الساعة ${selectedValue} بنجاح.`,
                     channelId: "إشعارات",
                   });
                 }
@@ -723,8 +724,8 @@ export default function Event() {
                     ? adminIds.forEach((adminId) => {
                         axios.post("https://api.nahtah.com/send", {
                           userId: adminId,
-                          title: "تم إضافة حجز جديد!",
-                          body: `تم حجز موعد جديد للحلاق ${selectedBarber} في ${selectedValue} بتاريخ ${selectedDateString}`,
+                          title: "طلب حجز موعد حلاقة",
+                          body: `لديك طلب حجز حلاقة عند ${selectedBarber} بتاريخ ${selectedDateString} على الساعة ${selectedValue}`,
                           channelId: "ManageEvents",
                         });
                       })
@@ -732,16 +733,16 @@ export default function Event() {
                 }
                 if (ClientsIds.includes(user._id)) {
                   await axios.post("https://api.nahtah.com/notifications/", {
-                    title: "تم حجز موعد جديد!",
-                    text: `تم حجز موعد جديد لك في ${selectedValue} بتاريخ ${selectedDateString}`,
+                    title: "طلب حجز موعد حلاقة",
+                    text: `لقد تم إرسال طلب الحجز للحلاقة الخاص بك بتاريخ ${selectedDateString}، على الساعة ${selectedValue} بنجاح.`,
                     redirection: "الحجوزات",
                     client: user._id,
                   });
 
                   await axios.post("https://api.nahtah.com/send", {
                     userId: user._id,
-                    title: "تم حجز موعد جديد!",
-                    body: `تم حجز موعد جديد لك في ${selectedValue} بتاريخ ${selectedDateString}`,
+                    title: "طلب حجز موعد حلاقة",
+                    body: `لقد تم إرسال طلب الحجز للحلاقة الخاص بك بتاريخ ${selectedDateString}، على الساعة ${selectedValue} بنجاح.`,
                     channelId: "إشعارات",
                   });
                 }

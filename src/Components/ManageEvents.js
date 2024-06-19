@@ -92,7 +92,13 @@ export default function ManageEvents({ triggerGetEvents }) {
     return FormatNumberDigitsToEnglish(formattedTime);
   };
 
-  const HandleChangeStatus = async (eventId, status, clientId) => {
+  const HandleChangeStatus = async (
+    eventId,
+    status,
+    clientId,
+    currentDate,
+    title
+  ) => {
     await axios
       .put(`https://api.nahtah.com/events/accept/${eventId}`, {
         status: status,
@@ -116,15 +122,21 @@ export default function ManageEvents({ triggerGetEvents }) {
               (UserId === clientId._id && status === false))
           ) {
             await axios.post("https://api.nahtah.com/notifications/", {
-              title: "تحديث حالة الحدث",
-              text: status === true ? "تم قبول الحدث" : "تم رفض الحدث",
+              title: status === true ? " قبول الموعد" : " رفض الموعد",
+              text:
+                status === true
+                  ? `لقد تم قبول موعد الحلاقة الخاص بك بتاريخ ${currentDate} على الساعة ${title}`
+                  : `لقد تم رفض موعد الحلاقة الخاص بك بتاريخ ${currentDate} على الساعة ${title}`,
               redirection: "الحجوزات",
               client: UserId,
             });
             await axios.post("https://api.nahtah.com/send", {
               userId: UserId,
-              title: "تحديث حالة الحدث",
-              body: status === true ? "تم قبول الحدث" : "تم رفض الحدث",
+              title: status === true ? " قبول الموعد" : " رفض الموعد",
+              body:
+                status === true
+                  ? `لقد تم قبول موعد الحلاقة الخاص بك بتاريخ ${currentDate} على الساعة ${title}`
+                  : `لقد تم رفض موعد الحلاقة الخاص بك بتاريخ ${currentDate} على الساعة ${title}`,
               channelId: "إشعارات",
             });
           }
@@ -264,7 +276,13 @@ export default function ManageEvents({ triggerGetEvents }) {
                   <View style={styles.buttonContainer}>
                     <TouchableOpacity
                       onPress={() =>
-                        HandleChangeStatus(event._id, true, event.client)
+                        HandleChangeStatus(
+                          event._id,
+                          true,
+                          event.client,
+                          event.start,
+                          event.title
+                        )
                       }
                       style={styles.statusButton}
                     >
@@ -272,7 +290,13 @@ export default function ManageEvents({ triggerGetEvents }) {
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() =>
-                        HandleChangeStatus(event._id, false, event.client)
+                        HandleChangeStatus(
+                          event._id,
+                          false,
+                          event.client,
+                          event.start,
+                          event.title
+                        )
                       }
                       style={styles.statusButton}
                     >
