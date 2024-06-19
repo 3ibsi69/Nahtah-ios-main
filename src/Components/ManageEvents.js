@@ -125,8 +125,12 @@ export default function ManageEvents({ triggerGetEvents }) {
               title: status === true ? " قبول الموعد" : " رفض الموعد",
               text:
                 status === true
-                  ? `لقد تم قبول موعد الحلاقة الخاص بك بتاريخ ${currentDate} على الساعة ${title}`
-                  : `لقد تم رفض موعد الحلاقة الخاص بك بتاريخ ${currentDate} على الساعة ${title}`,
+                  ? `لقد تم قبول موعد الحلاقة الخاص بك بتاريخ ${
+                      currentDate.split(" ")[0]
+                    } على الساعة ${currentDate.split(" ")[1]}`
+                  : `لقد تم رفض موعد الحلاقة الخاص بك بتاريخ ${
+                      currentDate.split(" ")[0]
+                    } على الساعة ${currentDate.split(" ")[1]}`,
               redirection: "الحجوزات",
               client: UserId,
             });
@@ -135,8 +139,12 @@ export default function ManageEvents({ triggerGetEvents }) {
               title: status === true ? " قبول الموعد" : " رفض الموعد",
               body:
                 status === true
-                  ? `لقد تم قبول موعد الحلاقة الخاص بك بتاريخ ${currentDate} على الساعة ${title}`
-                  : `لقد تم رفض موعد الحلاقة الخاص بك بتاريخ ${currentDate} على الساعة ${title}`,
+                  ? `لقد تم قبول موعد الحلاقة الخاص بك بتاريخ ${
+                      currentDate.split(" ")[0]
+                    } على الساعة ${currentDate.split(" ")[1]}`
+                  : `لقد تم رفض موعد الحلاقة الخاص بك بتاريخ ${
+                      currentDate.split(" ")[0]
+                    } على الساعة ${currentDate.split(" ")[1]}`,
               channelId: "إشعارات",
             });
           }
