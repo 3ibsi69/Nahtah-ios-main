@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "nahtah.project",
-      "buildNumber": "3"  
+      "buildNumber": "4"  
 
     },
     "android": {
