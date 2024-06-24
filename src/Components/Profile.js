@@ -46,7 +46,7 @@ export default function Profile({ navigation }) {
       if (userString) {
         const user = JSON.parse(userString);
 
-        if ((user && user.type === "User") || user.type === "Admin") {
+        if (user && user.type === "User") {
           const getUserResponse = await axios.get(
             `https://api.nahtah.com/auth/user/${user._id}`
           );
@@ -172,7 +172,44 @@ export default function Profile({ navigation }) {
       console.error("Error updating profile:", error);
     }
   };
+  const handleDeleteAccount = async () => {
+    try {
+      const userString = await AsyncStorage.getItem("user");
+      if (!userString) {
+        return;
+      }
+      const user = JSON.parse(userString);
 
+      if (!user || !user._id) {
+        return;
+      }
+
+      await axios.delete(`https://api.nahtah.com/auth/user/${user._id}`);
+      await AsyncStorage.removeItem("user");
+      navigation.navigate("Logout");
+      Alert.alert("تم حذف الحساب بنجاح");
+    } catch (error) {
+      console.error("Error deleting account:", error);
+    }
+  };
+
+  const confirmDeleteAccount = () => {
+    Alert.alert(
+      "تأكيد الحذف",
+      "هل أنت متأكد أنك تريد حذف حسابك؟",
+      [
+        {
+          text: "إلغاء",
+          style: "cancel",
+        },
+        {
+          text: "نعم",
+          onPress: handleDeleteAccount,
+        },
+      ],
+      { cancelable: false }
+    );
+  };
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -271,6 +308,12 @@ export default function Profile({ navigation }) {
             <Text style={styles.buttonText}>تحديث الملف الشخصي</Text>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          style={styles.deleteText}
+          onPress={confirmDeleteAccount}
+        >
+          <Text style={{ color: "red" }}>لحذف هذا الحساب، انقر هنا.</Text>
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
@@ -358,5 +401,9 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 10,
     textAlign: "right",
+  },
+  deleteText: {
+    position: "absolute",
+    bottom: 8,
   },
 });
