@@ -2,7 +2,7 @@
   "expo": {
     "name": "نحته حجوزات",
     "slug": "AwesomeProject",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "owner": "abbassiahmed",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "nahtah.project",
-      "buildNumber": "4"  
+      "buildNumber": "5"  
 
     },
     "android": {
