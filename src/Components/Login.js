@@ -13,10 +13,11 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import SharedStateContext from "../../SharedStateContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import TESTNOTIF from "./TESTNOTIF";
 import GoogleUp from "./GoogleUp";
-import GoogleIos from "./googleUpIos"
+import GoogleIos from "./googleUpIos";
 // import FacebookUp from "./FacebookUp";
 import { FontAwesome } from "@expo/vector-icons";
 export default function Login({ navigation }) {
@@ -150,6 +151,11 @@ export default function Login({ navigation }) {
       // You can adjust the behavior based on your preference
     >
       <View style={styles.Maincontainer}>
+        <View style={styles.arrowBack}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-forward-outline" size={28} color="black" />
+          </TouchableOpacity>
+        </View>
         <View style={styles.imgContainer}>
           <Image source={require("../../assets/Logo.png")} style={styles.img} />
         </View>
@@ -205,21 +211,6 @@ export default function Login({ navigation }) {
           <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
             <Text style={styles.signinText}>ليس لديك حساب؟ سجل الآن</Text>
           </TouchableOpacity>
-
-          <View style={{ flexDirection: "row", marginTop: 20 }}>
-            <View style={styles.container}>
-              <View style={styles.buttonContainers}>
-                <TouchableOpacity style={styles.buttons}>
-                  {/* <GoogleUp /> */}
-                  <GoogleIos/>
-                </TouchableOpacity>
-                {/* <TouchableOpacity style={styles.buttons}>
-                  <FacebookUp />
-                </TouchableOpacity> */}
-              </View>
-              <View style={styles.hr} />
-            </View>
-          </View>
         </View>
         {isLoggedIn && <TESTNOTIF onTokenReceived={handleTokenReceived} />}
       </View>
@@ -296,6 +287,11 @@ const styles = StyleSheet.create({
     marginTop: 22,
     color: "black",
     textDecorationLine: "underline",
+  },
+  arrowBack: {
+    position: "absolute",
+    top: 40,
+    right: 20,
   },
   container: {
     flex: 1,

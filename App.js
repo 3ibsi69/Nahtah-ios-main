@@ -31,6 +31,7 @@ navigator.__defineGetter__("userAgent", function () {
   return "react-native";
 });
 import ForgetPassword from "./src/Components/ForgetPassword";
+import Welcome from "./src/Components/welcome";
 import ChangePassword from "./src/Components/ChangePassword";
 import SocketIOClient from "socket.io-client/dist/socket.io.js";
 import GoogleUp from "./src/Components/GoogleUp";
@@ -143,17 +144,17 @@ function MainStackScreen() {
       <Tab.Screen
         name="حجز"
         component={Event}
-        options={{ headerShown: false,tabBarLabelStyle:{fontSize:10} }}
+        options={{ headerShown: false, tabBarLabelStyle: { fontSize: 10 } }}
       />
       <Tab.Screen
         name="الحجوزات"
         component={Events}
-        options={{ headerShown: false,tabBarLabelStyle:{fontSize:10} }}
+        options={{ headerShown: false, tabBarLabelStyle: { fontSize: 10 } }}
       ></Tab.Screen>
       <Tab.Screen
         name="النشرة الإخبارية"
         component={SeeNewsPaperClient}
-        options={{ headerShown: false,tabBarLabelStyle:{fontSize:10} }}
+        options={{ headerShown: false, tabBarLabelStyle: { fontSize: 10 } }}
       ></Tab.Screen>
 
       <Tab.Screen
@@ -161,7 +162,7 @@ function MainStackScreen() {
         options={{
           headerShown: false,
           tabBarBadge: uncheckedCount > 0 ? uncheckedCount : null,
-          tabBarLabelStyle:{fontSize:10}
+          tabBarLabelStyle: { fontSize: 10 },
         }}
       >
         {() => (
@@ -179,12 +180,12 @@ function MainStackScreen() {
       <Tab.Screen
         name="حساب تعريفي"
         component={Profile}
-        options={{ headerShown: false ,tabBarLabelStyle:{fontSize:10}}}
+        options={{ headerShown: false, tabBarLabelStyle: { fontSize: 10 } }}
       />
       <Tab.Screen
         name="Logout"
         component={HandleLogout}
-        options={{ headerShown: false ,tabBarLabelStyle:{fontSize:10}}}
+        options={{ headerShown: false, tabBarLabelStyle: { fontSize: 10 } }}
       />
 
       <Tab.Screen
@@ -264,7 +265,7 @@ function AdminStackScreen() {
       screenOptions={({ route }) => ({
         tabBarStyle: {
           height: 80,
-          width :"100%"
+          width: "100%",
         },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -302,13 +303,17 @@ function AdminStackScreen() {
       <Tab.Screen
         name="SeeWorkers"
         component={SeeWorkers}
-        options={{ headerShown: false, tabBarLabel: "إدارة العمال",tabBarLabelStyle:{fontSize:10} }}
+        options={{
+          headerShown: false,
+          tabBarLabel: "إدارة العمال",
+          tabBarLabelStyle: { fontSize: 10 },
+        }}
       />
       <Tab.Screen
         name="ManageEvents"
         options={{
           tabBarLabel: "إدارة الحجوزات",
-          tabBarLabelStyle:{fontSize:10},      
+          tabBarLabelStyle: { fontSize: 10 },
           headerShown: false,
           tabBarBadge: eventSLength > 0 ? eventSLength : null,
         }}
@@ -319,7 +324,7 @@ function AdminStackScreen() {
       <Tab.Screen
         name="العروض"
         component={SeeNewsLetter}
-        options={{ headerShown: false,tabBarLabelStyle:{fontSize:10} }}
+        options={{ headerShown: false, tabBarLabelStyle: { fontSize: 10 } }}
       />
       <Tab.Screen
         name="time"
@@ -327,18 +332,18 @@ function AdminStackScreen() {
         options={{
           tabBarLabel: "وقت العمل",
           headerShown: false,
-          tabBarLabelStyle:{fontSize:10}
+          tabBarLabelStyle: { fontSize: 10 },
         }}
       />
       <Tab.Screen
         name="حجز"
         component={EventAdmin}
-        options={{ headerShown: false,tabBarLabelStyle:{fontSize:10} }}
+        options={{ headerShown: false, tabBarLabelStyle: { fontSize: 10 } }}
       />
       <Tab.Screen
         name="الحجوزات"
         component={ChooseTimeSeeEvents}
-        options={{ headerShown: false ,tabBarLabelStyle:{fontSize:10}}}
+        options={{ headerShown: false, tabBarLabelStyle: { fontSize: 10 } }}
       />
       <Tab.Screen
         name="تحديث رسالة الأخبار"
@@ -347,7 +352,7 @@ function AdminStackScreen() {
           tabBarButton: () => null,
           tabBarVisible: false,
           headerShown: false,
-          tabBarLabelStyle:{fontSize:10}
+          tabBarLabelStyle: { fontSize: 10 },
         }}
       />
       <Tab.Screen
@@ -356,18 +361,22 @@ function AdminStackScreen() {
         options={{
           tabBarLabel: "إدارة المستخدمين",
           headerShown: false,
-          tabBarLabelStyle:{fontSize:10}
+          tabBarLabelStyle: { fontSize: 10 },
         }}
       />
       <Tab.Screen
         name="حساب تعريفي"
         component={Profile}
-        options={{ headerShown: false,tabBarLabelStyle:{fontSize:10} }}
+        options={{ headerShown: false, tabBarLabelStyle: { fontSize: 10 } }}
       />
       <Tab.Screen
         name="Logout"
         component={HandleLogout}
-        options={{ headerShown: false, tabBarLabel: "الخروج" ,tabBarLabelStyle:{fontSize:10}}}
+        options={{
+          headerShown: false,
+          tabBarLabel: "الخروج",
+          tabBarLabelStyle: { fontSize: 10 },
+        }}
       />
 
       <Tab.Screen
@@ -409,7 +418,6 @@ const signOut = async () => {
       await GoogleSignin.signOut();
     } else {
       // Only try to sign out from Firebase if there's a current user
-      
     }
     await AsyncStorage.removeItem("token");
     await AsyncStorage.removeItem("user");
@@ -457,6 +465,11 @@ function HandleLogout() {
 function AuthStackScreen() {
   return (
     <AuthStack.Navigator>
+      <AuthStack.Screen
+        name="welcome"
+        component={Welcome}
+        options={{ headerShown: false }}
+      />
       <AuthStack.Screen
         name="Home"
         component={Login}
