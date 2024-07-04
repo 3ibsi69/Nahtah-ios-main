@@ -30,6 +30,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 navigator.__defineGetter__("userAgent", function () {
   return "react-native";
 });
+import Entypo from "@expo/vector-icons/Entypo";
+
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
 import ForgetPassword from "./src/Components/ForgetPassword";
 import Welcome from "./src/Components/welcome";
 import ChangePassword from "./src/Components/ChangePassword";
@@ -51,6 +55,7 @@ const Tab = createBottomTabNavigator();
 const AuthStack = createStackNavigator();
 const AdminStack = createStackNavigator();
 const socket = SocketIOClient("https://api.nahtah.com");
+SplashScreen.preventAutoHideAsync();
 
 function MainStackScreen() {
   const [uncheckedCount, setUncheckedCount] = useState(0);
@@ -508,7 +513,31 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [user, setuser] = React.useState(null);
   const [isAdmin, setIsAdmin] = React.useState("");
+  const [appIsReady, setAppIsReady] = useState(false);
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync(Entypo.font);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
 
+    prepare();
+  }, []);
+
+  if (!appIsReady) {
+    return (
+      <View style={styles.splashContainer}>
+        <View style={styles.imgContainer}>
+          <Image source={require("./assets/Logo.png")} style={styles.img} />
+        </View>
+      </View>
+    );
+  }
   return (
     <SharedStateContext.Provider
       value={{
@@ -543,5 +572,24 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
+  },
+  splashContainer: {
+    flex: 1,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  imgContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 150,
+    height: 150,
+    margin: 10,
+    overflow: "hidden",
+  },
+  img: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
   },
 });
