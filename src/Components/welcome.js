@@ -14,6 +14,7 @@ import React, { useContext, useEffect, useState } from "react";
 import SharedStateContext from "../../SharedStateContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TESTNOTIF from "./TESTNOTIF";
+import axios from "axios";
 import GoogleIos from "./googleUpIos";
 import { FontAwesome } from "@expo/vector-icons";
 
