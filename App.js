@@ -32,7 +32,6 @@ navigator.__defineGetter__("userAgent", function () {
 });
 import Entypo from "@expo/vector-icons/Entypo";
 
-import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 import ForgetPassword from "./src/Components/ForgetPassword";
 import Welcome from "./src/Components/welcome";
@@ -55,7 +54,6 @@ const Tab = createBottomTabNavigator();
 const AuthStack = createStackNavigator();
 const AdminStack = createStackNavigator();
 const socket = SocketIOClient("https://api.nahtah.com");
-SplashScreen.preventAutoHideAsync();
 
 function MainStackScreen() {
   const [uncheckedCount, setUncheckedCount] = useState(0);
