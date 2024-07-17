@@ -53,12 +53,14 @@ export default function EventDetails() {
       } else {
         setReviewAdded(true);
       }
-      const oneHourBeforeStartTime = new Date(date + " " + time);
-      oneHourBeforeStartTime.setHours(oneHourBeforeStartTime.getHours() - 1);
+      const fifteenMinutesBeforeStartTime = new Date(date + " " + time);
+      fifteenMinutesBeforeStartTime.setMinutes(
+        fifteenMinutesBeforeStartTime.getMinutes() - 15
+      );
       const currentTime = new Date();
-      const adjustedTime = new Date(currentTime.getTime() + 60 * 60 * 1000);
+      const adjustedTime = new Date(currentTime.getTime() + 15 * 60 * 1000);
       const currentTimeUTC = new Date(adjustedTime.toISOString());
-      if (currentTimeUTC < oneHourBeforeStartTime) {
+      if (currentTimeUTC < fifteenMinutesBeforeStartTime) {
         setCancelAllowed(true);
         setUpdateAllowed(true);
       } else {

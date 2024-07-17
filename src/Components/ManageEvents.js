@@ -312,6 +312,60 @@ export default function ManageEvents({ triggerGetEvents }) {
                     </TouchableOpacity>
                   </View>
                 )}
+                {event.status === true && event.status !== false && (
+                  <View style={styles.buttonContainerText}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        HandleChangeStatus(
+                          event._id,
+                          false,
+                          event.client,
+                          event.start,
+                          event.title
+                        )
+                      }
+                      style={styles.statusButton}
+                    >
+                      <Icon name="times" size={18} color="red" />
+                    </TouchableOpacity>
+                    <Text
+                      style={{
+                        color: "black",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      تحديث الحجز:
+                    </Text>
+                  </View>
+                )}
+                {event.status !== true && event.status === false && (
+                  <View style={styles.buttonContainerText}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        HandleChangeStatus(
+                          event._id,
+                          true,
+                          event.client,
+                          event.start,
+                          event.title
+                        )
+                      }
+                      style={styles.statusButton}
+                    >
+                      <Icon name="check" size={18} color="green" />
+                    </TouchableOpacity>
+                    <Text
+                      style={{
+                        color: "black",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      تحديث الحجز:
+                    </Text>
+                  </View>
+                )}
               </View>
             ))
           )}
@@ -457,6 +511,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 10,
+  },
+  buttonContainerText: {
+    flexDirection: "row",
+    marginTop: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
   statusButton: {
     borderRadius: 5,

@@ -188,7 +188,11 @@ function MainStackScreen() {
       <Tab.Screen
         name="Logout"
         component={HandleLogout}
-        options={{ headerShown: false, tabBarLabelStyle: { fontSize: 10 } }}
+        options={{
+          headerShown: false,
+          tabBarLabelStyle: { fontSize: 10 },
+          tabBarLabel: "الخروج",
+        }}
       />
 
       <Tab.Screen

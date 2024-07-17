@@ -47,7 +47,7 @@ export default function ForgetPassword() {
       setLoader(true);
       await axios
         .post("https://api.nahtah.com/auth/user/forgetPassword", {
-          email: email,
+          email: email.toLowerCase(),
         })
         .then((result) => {
           if (result.data.message === "User not found") {
@@ -69,7 +69,13 @@ export default function ForgetPassword() {
         })
         .catch((err) => {
           console.log(err.messa);
+          setEmailError("البريد الإلكتروني غير موجود");
           setLoader(false);
+          setError(true);
+          setTimeout(() => {
+            setError(false);
+          }, 3000);
+          return;
         });
     } catch (error) {
       setLoader(false);
@@ -85,7 +91,7 @@ export default function ForgetPassword() {
       setLoader(true);
       await axios
         .post("https://api.nahtah.com/auth/user/validateCode", {
-          email: email,
+          email: email.toLowerCase(),
           code: code,
         })
         .then((result) => {

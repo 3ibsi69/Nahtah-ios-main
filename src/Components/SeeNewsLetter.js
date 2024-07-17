@@ -139,7 +139,7 @@ export default function SeeNewsLetter() {
                 />
               </View>
             </View>
-            <View>
+            <View style={styles.textContainer}>
               <Text style={styles.title}>{newsletter.title}</Text>
               <Text style={styles.text}>{newsletter.text}</Text>
             </View>
@@ -199,6 +199,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 5,
     padding: 10,
+    width: "100%",
     marginBottom: 10,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -211,8 +212,15 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.24,
     shadowRadius: 8,
+    flexWrap: "wrap",
   },
 
+  textContainer: {
+    flex: 1,
+    flexDirection: "column",
+    marginLeft: 10,
+    maxWidth: "80%",
+  },
   title: {
     fontSize: 18,
     fontWeight: "bold",
