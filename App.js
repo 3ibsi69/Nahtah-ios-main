@@ -228,13 +228,13 @@ function AdminStackScreen() {
         const user = JSON.parse(userString);
         if (user) {
           const response = await axios.post(
-            `https://api.nahtah.com/events/status`,
+            `https://api.nahtah.com/events/status?page=1`,
             {
               status: null,
             }
           );
           if (response.data) {
-            setEventSLength(response.data.length);
+            setEventSLength(response.data.upcomingEvents.length);
           }
         }
       }
