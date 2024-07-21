@@ -17,6 +17,7 @@ import {
   FormatNumberDigitsToEnglish,
 } from "../Localization";
 import SocketIOClient from "socket.io-client/dist/socket.io.js";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const socket = SocketIOClient("https://api.nahtah.com");
 export default function ManageEvents({ triggerGetEvents }) {
@@ -24,6 +25,8 @@ export default function ManageEvents({ triggerGetEvents }) {
   const [loading, setLoading] = useState(false);
   const [filterStatus, setFilterStatus] = useState(null);
   const [UsersIds, setUsersIds] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     socket.on("newEvent", (data) => {
@@ -60,18 +63,22 @@ export default function ManageEvents({ triggerGetEvents }) {
     try {
       setLoading(true);
       const response = await axios.post(
-        `https://api.nahtah.com/events/status`,
+        `https://api.nahtah.com/events/status?page=${currentPage}`,
         {
           status: filterStatus,
         }
       );
-      setEvents(response.data);
+      setEvents(response.data.upcomingEvents);
+      setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error("Error fetching event data:", error);
     } finally {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    getEvents();
+  }, [currentPage]);
 
   useEffect(() => {
     setLoading(true);
@@ -91,7 +98,16 @@ export default function ManageEvents({ triggerGetEvents }) {
     });
     return FormatNumberDigitsToEnglish(formattedTime);
   };
-
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
   const HandleChangeStatus = async (
     eventId,
     status,
@@ -156,7 +172,7 @@ export default function ManageEvents({ triggerGetEvents }) {
   };
 
   // Filter events based on status
-  const filteredEvents = events.filter((event) => {
+  const filteredEvents = events?.filter((event) => {
     return event.status === filterStatus;
   });
   const getStatusStyle = (event) => {
@@ -181,197 +197,221 @@ export default function ManageEvents({ triggerGetEvents }) {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContent}>
-      <View style={styles.filterContainer}>
-        <TouchableOpacity
-          onPress={() => setFilterStatus(null)}
-          style={[
-            styles.filterButton,
-            filterStatus === null && styles.activeFilterButton,
-            styles.waitingButton,
-          ]}
-        >
-          <Text style={styles.filterText}> الحجوزات المنتظرة </Text>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <View style={styles.filterContainer}>
+          <TouchableOpacity
+            onPress={() => setFilterStatus(null)}
+            style={[
+              styles.filterButton,
+              filterStatus === null && styles.activeFilterButton,
+              styles.waitingButton,
+            ]}
+          >
+            <Text style={styles.filterText}> الحجوزات المنتظرة </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setFilterStatus(true)}
+            style={[
+              styles.filterButton,
+              filterStatus === true && styles.activeFilterButton,
+              styles.approvedButton,
+            ]}
+          >
+            <Text style={styles.filterText}>الحجوزات المقبولة</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setFilterStatus(false)}
+            style={[
+              styles.filterButton,
+              filterStatus === false && styles.activeFilterButton,
+              styles.declinedButton,
+            ]}
+          >
+            <Text style={styles.filterText}> الحجوزات المرفوضة </Text>
+          </TouchableOpacity>
+        </View>
+        {loading ? (
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+        ) : (
+          <View>
+            {filteredEvents?.length === 0 ? (
+              <Text style={{ textAlign: "center", marginTop: 20 }}>
+                لا توجد أحداث
+              </Text>
+            ) : (
+              filteredEvents?.map((event) => (
+                <View key={event._id} style={styles.eventContainer}>
+                  <Text style={styles.title}>{event.title}</Text>
+                  <View style={styles.row}>
+                    <Text style={styles.Label}> التاريخ: </Text>
+                    <Text style={styles.Text}>
+                      {FormatNumberDigitisToEn(event.start)}
+                    </Text>
+                  </View>
+                  <View style={styles.row}>
+                    <Text style={styles.Label}> البداية: </Text>
+
+                    <Text style={styles.Text}>{FormatTime(event.start)}</Text>
+                  </View>
+                  <View style={styles.row}>
+                    <Text style={styles.Label}> الاسم: </Text>
+                    <Text style={styles.Text}>
+                      {event.client
+                        ? event.client.username
+                        : "تم إنشاؤه بواسطة المسؤول"}
+                    </Text>
+                  </View>
+                  <View style={styles.row}>
+                    <Text style={styles.Label}> البريد الإلكتروني: </Text>
+                    <Text style={styles.Text}>
+                      {event.client
+                        ? event.client.email
+                        : "تم إنشاؤه بواسطة المسؤول"}
+                    </Text>
+                  </View>
+                  <View style={styles.row}>
+                    <Text style={styles.Label}> الهاتف: </Text>
+                    <Text
+                      style={[
+                        styles.Text,
+                        event.client && event.client.phone
+                          ? styles.phoneWithNumber
+                          : styles.phoneWithoutNumber,
+                      ]}
+                      onPress={() =>
+                        makePhoneCall(event.client ? event.client.phone : "")
+                      }
+                    >
+                      {event.client
+                        ? event.client.phone
+                        : "تم إنشاؤه بواسطة المسؤول"}
+                    </Text>
+                  </View>
+
+                  <View style={[styles.statusContainer, getStatusStyle(event)]}>
+                    <Text style={[styles.statusText]}>
+                      {getStatusText(event)}
+                    </Text>
+                  </View>
+
+                  {event.status !== true && event.status !== false && (
+                    <View style={styles.buttonContainer}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          HandleChangeStatus(
+                            event._id,
+                            true,
+                            event.client,
+                            event.start,
+                            event.title
+                          )
+                        }
+                        style={styles.statusButton}
+                      >
+                        <Icon name="check" size={18} color="green" />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() =>
+                          HandleChangeStatus(
+                            event._id,
+                            false,
+                            event.client,
+                            event.start,
+                            event.title
+                          )
+                        }
+                        style={styles.statusButton}
+                      >
+                        <Icon name="times" size={18} color="red" />
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                  {event.status === true && event.status !== false && (
+                    <View style={styles.buttonContainerText}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          HandleChangeStatus(
+                            event._id,
+                            false,
+                            event.client,
+                            event.start,
+                            event.title
+                          )
+                        }
+                        style={styles.statusButton}
+                      >
+                        <Icon name="times" size={18} color="red" />
+                      </TouchableOpacity>
+                      <Text
+                        style={{
+                          color: "black",
+                          fontSize: 16,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        تحديث الحجز:
+                      </Text>
+                    </View>
+                  )}
+                  {event.status !== true && event.status === false && (
+                    <View style={styles.buttonContainerText}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          HandleChangeStatus(
+                            event._id,
+                            true,
+                            event.client,
+                            event.start,
+                            event.title
+                          )
+                        }
+                        style={styles.statusButton}
+                      >
+                        <Icon name="check" size={18} color="green" />
+                      </TouchableOpacity>
+                      <Text
+                        style={{
+                          color: "black",
+                          fontSize: 16,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        تحديث الحجز:
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              ))
+            )}
+          </View>
+        )}
+      </ScrollView>
+      <View style={styles.pagination}>
+        <TouchableOpacity onPress={handlePrevPage} disabled={currentPage === 1}>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color={currentPage === 1 ? "gray" : "black"}
+          />
         </TouchableOpacity>
+        <Text>
+          {currentPage}/{totalPages}
+        </Text>
         <TouchableOpacity
-          onPress={() => setFilterStatus(true)}
-          style={[
-            styles.filterButton,
-            filterStatus === true && styles.activeFilterButton,
-            styles.approvedButton,
-          ]}
+          onPress={handleNextPage}
+          disabled={currentPage === totalPages}
         >
-          <Text style={styles.filterText}>الحجوزات المقبولة</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => setFilterStatus(false)}
-          style={[
-            styles.filterButton,
-            filterStatus === false && styles.activeFilterButton,
-            styles.declinedButton,
-          ]}
-        >
-          <Text style={styles.filterText}> الحجوزات المرفوضة </Text>
+          <Ionicons
+            name="arrow-forward"
+            size={24}
+            color={currentPage === totalPages ? "gray" : "black"}
+          />
         </TouchableOpacity>
       </View>
-      {loading ? (
-        <View style={styles.loaderContainer}>
-          <ActivityIndicator size="large" color="#0000ff" />
-        </View>
-      ) : (
-        <View>
-          {filteredEvents.length === 0 ? (
-            <Text style={{ textAlign: "center", marginTop: 20 }}>
-              لا توجد أحداث
-            </Text>
-          ) : (
-            filteredEvents.map((event) => (
-              <View key={event._id} style={styles.eventContainer}>
-                <Text style={styles.title}>{event.title}</Text>
-                <View style={styles.row}>
-                  <Text style={styles.Label}> التاريخ: </Text>
-                  <Text style={styles.Text}>
-                    {FormatNumberDigitisToEn(event.start)}
-                  </Text>
-                </View>
-                <View style={styles.row}>
-                  <Text style={styles.Label}> البداية: </Text>
-
-                  <Text style={styles.Text}>{FormatTime(event.start)}</Text>
-                </View>
-                <View style={styles.row}>
-                  <Text style={styles.Label}> الاسم: </Text>
-                  <Text style={styles.Text}>
-                    {event.client
-                      ? event.client.username
-                      : "تم إنشاؤه بواسطة المسؤول"}
-                  </Text>
-                </View>
-                <View style={styles.row}>
-                  <Text style={styles.Label}> البريد الإلكتروني: </Text>
-                  <Text style={styles.Text}>
-                    {event.client
-                      ? event.client.email
-                      : "تم إنشاؤه بواسطة المسؤول"}
-                  </Text>
-                </View>
-                <View style={styles.row}>
-                  <Text style={styles.Label}> الهاتف: </Text>
-                  <Text
-                    style={[
-                      styles.Text,
-                      event.client && event.client.phone
-                        ? styles.phoneWithNumber
-                        : styles.phoneWithoutNumber,
-                    ]}
-                    onPress={() =>
-                      makePhoneCall(event.client ? event.client.phone : "")
-                    }
-                  >
-                    {event.client
-                      ? event.client.phone
-                      : "تم إنشاؤه بواسطة المسؤول"}
-                  </Text>
-                </View>
-
-                <View style={[styles.statusContainer, getStatusStyle(event)]}>
-                  <Text style={[styles.statusText]}>
-                    {getStatusText(event)}
-                  </Text>
-                </View>
-
-                {event.status !== true && event.status !== false && (
-                  <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        HandleChangeStatus(
-                          event._id,
-                          true,
-                          event.client,
-                          event.start,
-                          event.title
-                        )
-                      }
-                      style={styles.statusButton}
-                    >
-                      <Icon name="check" size={18} color="green" />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() =>
-                        HandleChangeStatus(
-                          event._id,
-                          false,
-                          event.client,
-                          event.start,
-                          event.title
-                        )
-                      }
-                      style={styles.statusButton}
-                    >
-                      <Icon name="times" size={18} color="red" />
-                    </TouchableOpacity>
-                  </View>
-                )}
-                {event.status === true && event.status !== false && (
-                  <View style={styles.buttonContainerText}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        HandleChangeStatus(
-                          event._id,
-                          false,
-                          event.client,
-                          event.start,
-                          event.title
-                        )
-                      }
-                      style={styles.statusButton}
-                    >
-                      <Icon name="times" size={18} color="red" />
-                    </TouchableOpacity>
-                    <Text
-                      style={{
-                        color: "black",
-                        fontSize: 16,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      تحديث الحجز:
-                    </Text>
-                  </View>
-                )}
-                {event.status !== true && event.status === false && (
-                  <View style={styles.buttonContainerText}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        HandleChangeStatus(
-                          event._id,
-                          true,
-                          event.client,
-                          event.start,
-                          event.title
-                        )
-                      }
-                      style={styles.statusButton}
-                    >
-                      <Icon name="check" size={18} color="green" />
-                    </TouchableOpacity>
-                    <Text
-                      style={{
-                        color: "black",
-                        fontSize: 16,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      تحديث الحجز:
-                    </Text>
-                  </View>
-                )}
-              </View>
-            ))
-          )}
-        </View>
-      )}
-    </ScrollView>
+    </View>
   );
 }
 const windowWidth = Dimensions.get("window").width;
@@ -380,6 +420,10 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
     paddingTop: 50,
+    backgroundColor: "white",
+  },
+  container: {
+    flex: 1,
     backgroundColor: "white",
   },
 
@@ -517,6 +561,19 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: "center",
     justifyContent: "center",
+  },
+  buttonContainerText: {
+    flexDirection: "row",
+    marginTop: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  pagination: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    marginVertical: 20,
+    backgroundColor: "white",
   },
   statusButton: {
     borderRadius: 5,
