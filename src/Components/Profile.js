@@ -40,6 +40,7 @@ export default function Profile({ navigation }) {
       setEditable(false);
     }, [])
   );
+
   const getUserData = async () => {
     try {
       const userString = await AsyncStorage.getItem("user");
@@ -66,6 +67,7 @@ export default function Profile({ navigation }) {
       console.log(e);
     }
   };
+
   const checkIfBanned = async () => {
     try {
       const userString = await AsyncStorage.getItem("user");
@@ -95,6 +97,7 @@ export default function Profile({ navigation }) {
       checkIfBanned();
     }, [])
   );
+
   useFocusEffect(
     React.useCallback(() => {
       getUserData();
@@ -144,7 +147,7 @@ export default function Profile({ navigation }) {
             .then(async (response) => {
               if (response.data.msg === "updated") {
                 let userData;
-                if (user.type === "User" || user.type === "Admin") {
+                if (user.type === "User") {
                   const getUserResponse = await axios.get(
                     `https://api.nahtah.com/auth/user/${user._id}`
                   );
@@ -172,6 +175,7 @@ export default function Profile({ navigation }) {
       console.error("Error updating profile:", error);
     }
   };
+
   const handleDeleteAccount = async () => {
     try {
       const userString = await AsyncStorage.getItem("user");
@@ -210,11 +214,11 @@ export default function Profile({ navigation }) {
       { cancelable: false }
     );
   };
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      // You can adjust the behavior based on your preference
     >
       <View style={styles.Maincontainer}>
         <View style={styles.imgContainer}>
@@ -223,15 +227,6 @@ export default function Profile({ navigation }) {
 
         <View style={styles.inputsContainer}>
           <View style={styles.row}>
-            <AntDesign
-              name="edit"
-              style={styles.iconContainer}
-              size={22}
-              color="black"
-              onPress={() => {
-                setEditableEmail(true);
-              }}
-            />
             <TextInput
               placeholder="البريد الالكتروني"
               style={[
@@ -246,20 +241,20 @@ export default function Profile({ navigation }) {
               keyboardType="email-address"
               editable={editableEmail}
             />
-            {validEmailError ? (
-              <Text style={styles.errorText}>{validEmailError}</Text>
-            ) : null}
-          </View>
-          <View style={styles.row}>
             <AntDesign
               name="edit"
               style={styles.iconContainer}
               size={22}
               color="black"
               onPress={() => {
-                setEditableUsername(true);
+                setEditableEmail(true);
               }}
             />
+          </View>
+          {validEmailError ? (
+            <Text style={styles.errorText}>{validEmailError}</Text>
+          ) : null}
+          <View style={styles.row}>
             <TextInput
               placeholder="اسم المستخدم"
               style={[
@@ -271,17 +266,17 @@ export default function Profile({ navigation }) {
               onChangeText={setUsername}
               editable={editableUsername}
             />
-          </View>
-          <View style={styles.row}>
             <AntDesign
               name="edit"
               style={styles.iconContainer}
               size={22}
               color="black"
               onPress={() => {
-                setEditableNumber(true);
+                setEditableUsername(true);
               }}
             />
+          </View>
+          <View style={styles.row}>
             <TextInput
               placeholder="رقم الهاتف"
               style={[
@@ -293,6 +288,15 @@ export default function Profile({ navigation }) {
               onChangeText={setNumber}
               keyboardType="numeric"
               editable={editableNumber}
+            />
+            <AntDesign
+              name="edit"
+              style={styles.iconContainer}
+              size={22}
+              color="black"
+              onPress={() => {
+                setEditableNumber(true);
+              }}
             />
           </View>
 
@@ -373,7 +377,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
   },
-
   NonEditableInput: {
     backgroundColor: "#f2f2f2",
     borderWidth: 0,
@@ -389,18 +392,8 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     position: "absolute",
-    right: 45,
-    top: 20,
-    transform: [{ scaleX: -1 }],
-  },
-  inputs: {
-    borderWidth: 1,
-    borderColor: "black",
-    width: "80%",
-    height: 45,
-    padding: 10,
-    marginVertical: 10,
-    textAlign: "right",
+    right: "10%",
+    top: "auto",
   },
   deleteText: {
     position: "absolute",
