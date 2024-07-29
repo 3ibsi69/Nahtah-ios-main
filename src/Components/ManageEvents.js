@@ -87,6 +87,7 @@ export default function ManageEvents({ triggerGetEvents }) {
     React.useCallback(() => {
       getEvents();
       getUsers();
+      setCurrentPage(1);
     }, [filterStatus])
   );
 
