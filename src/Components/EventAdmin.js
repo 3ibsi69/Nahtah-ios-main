@@ -429,9 +429,9 @@ export default function EventAdmin() {
           const FormatedTime2 = FormatedTime[0] + ":" + FormatedTime[1];
           const isPast = lastOptionTime <= FormatedTime2;
           if (isPast === false) {
-            setSelectedDate(formattedDeviceDate);
-          } else {
             setSelectedDate(formattedDeviceDate2);
+          } else {
+            setSelectedDate(formattedDeviceDate);
           }
         } else {
           const FormatedTime2 = FormatedTime[0] + ":" + FormatedTime[1];
@@ -639,9 +639,7 @@ export default function EventAdmin() {
           </View>
 
           <View style={styles.datePickerButton}>
-          {selectedDate && (
-            <Text>{selectedDate}</Text>
-          )}
+            {selectedDate && <Text>{selectedDate}</Text>}
             <TouchableOpacity
               onPress={toggleDatePicker}
               style={styles.datePickerBtn}
@@ -1049,7 +1047,6 @@ const styles = StyleSheet.create({
     width: "80%",
     justifyContent: "flex-end",
     marginBottom: 20,
-    
   },
   datePickerBtn: {
     width: "48%",
@@ -1059,7 +1056,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 8, // Slightly rounded corners
     marginLeft: 8,
-
   },
   datePickerBtnText: {
     color: "#fff",

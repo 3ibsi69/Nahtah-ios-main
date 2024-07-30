@@ -381,9 +381,9 @@ export default function Event() {
           const FormatedTime2 = FormatedTime[0] + ":" + FormatedTime[1];
           const isPast = lastOptionTime <= FormatedTime2;
           if (isPast === false) {
-            setSelectedDate(formattedDeviceDate);
-          } else {
             setSelectedDate(formattedDeviceDate2);
+          } else {
+            setSelectedDate(formattedDeviceDate);
           }
         } else {
           const FormatedTime2 = FormatedTime[0] + ":" + FormatedTime[1];
